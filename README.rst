@@ -8,6 +8,61 @@ For an introduction and further documentation, see `doc/main.txt`_.
 
 For installation information, see `INSTALL.txt`_.
 
+Why is there a cffi branch?
+---------------------------
+
+This is an experimental branch of lxml that uses ``cffi`` instead of
+C-extensions to compile lxml. This means it is compatible with, among others,
+the Pypy project.
+
+Is this ready for production?
+-----------------------------
+
+The lxml-cffi branch has passed tests X, Y, and Z and companies A, B, and C are
+using it in production. However it is still very much new software and your
+mileage may vary.
+
+Installation
+------------
+
+If you are installing with CPython, you can use ``pip`` to install lxml.
+
+    .. code-block:: bash
+
+    pip install lxml
+
+This will download the lxml source code onto your machine and compile the lxml
+c-code for your machine. 
+
+If you are installing with Pypy, no compile step is necessary. Just copy the
+lxml source directory to any place that is checked by Python when it begins
+running. Here is one example usage, that will copy lxml-cffi into a virtualenv:
+
+.. code-block:: bash
+
+    virtualenv venv
+    source venv/bin/activate
+
+    mkdir -p tmp
+    pushd tmp
+        if [ ! -d lxml ]; then 
+            # Download the lxml code
+            git clone https://github.com/amauryfa/lxml.git
+        fi
+        pushd lxml
+            # Checkout the correct branch
+            git checkout cffi
+        popd
+    popd
+
+    # copy lxml into place, no compiling.
+    if [ -d venv/site-packages ]; then
+        cp -rf tmp/lxml/src/lxml venv/site-packages
+    else
+        cp -rf tmp/lxml/src/lxml venv/lib/pythonX.Y/site-packages
+    fi
+
+
 
 Support the project
 -------------------
